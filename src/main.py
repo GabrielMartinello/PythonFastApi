@@ -3,18 +3,31 @@ from fastapi import FastAPI, Request, Response
 from datetime import datetime
 
 app = FastAPI()
+teste= {
+  "vaga": "vagaDesenvolvimento", 
+  "requisitos": "Linguagem Python, c++ e conhecimento em HTML",
+  "disponivel": "S"
+}
 
-valores = []
-
-@app.get("/")
-def hello_world():
-    return {"Teste": valores}
+oportunidades = []
+oportunidades.append(teste)
 
 @app.post("/cadastrar")
-async def responda_outro(request: Request):
+async def cadastrar(request: Request):
     body = await request.body()
     body = dict(json.loads(body))
     body["data_hora_criacao"] = datetime.now()
-    valores.append(body)
+    oportunidades.append(body)
     return body
+
+@app.get("/vagasDisponiveis")
+def lista_vagas_disponiveis():
+    vagasDisponiveis = []
+    for vagas in oportunidades:
+        if vagas.get("disponivel") == 'S':
+            vagasDisponiveis.append(vagas)
+
+    return {"Vagas": vagasDisponiveis}
+
+
 
