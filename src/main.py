@@ -27,7 +27,6 @@ oportunidades.extend(teste)
 async def cadastrar(request: Request):
     body = await request.body()
     body = dict(json.loads(body))
-    print(uuid.uuid4())
 
     #usado para gerar um identificador único        
     body["id"] = uuid.uuid4()        
